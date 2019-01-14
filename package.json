@@ -1,0 +1,40 @@
+{
+  "name": "clickable",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "babel": "babel --presets es2015 js/main.js -o build/main.bundle.js",
+    "start": "webpack-dev-server --config webpack.config.js",
+    "webpack": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/louis-she/clickable.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/louis-she/clickable/issues"
+  },
+  "homepage": "https://github.com/louis-she/clickable#readme",
+  "devDependencies": {
+    "babel-loader": "^8.0.5",
+    "css-loader": "^2.1.0",
+    "html-loader": "^0.5.5",
+    "node-sass": "^4.11.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.28.4",
+    "webpack-cli": "^3.2.1",
+    "webpack-dev-server": "^3.1.14"
+  },
+  "dependencies": {
+    "jqeury": "^1.0.0",
+    "jquery": "^3.3.1",
+    "lodash": "^4.17.11",
+    "sweetalert": "^2.1.2",
+    "sweetalert2": "^7.33.1"
+  }
+}

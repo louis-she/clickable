@@ -2,51 +2,43 @@ import Container from './container'
 import $ from 'jquery'
 import './index.scss';
 
-// function drawClickbleArea(wrapperClass) {
-//   const $document = $(document)
-//
-//   const $wrappers = $(wrapperClass)
-//
-//   $wrappers.on('mousedown', (e) => {
-//     const $wrapper = $(e.target)
-//     const $wrapperLeftOffset = $wrapper.offset().left
-//     const $wrapperTopOffset = $wrapper.offset().top
-//     const $wrapperHeight = $wrapper.height()
-//     const $wrapperWidth = $wrapper.width()
-//
-//     const $hintDiv = $('<div class="clickable-hint"></div>')
-//     const anchorX = e.pageX - $wrapperLeftOffset
-//     const anchorY = e.pageY - $wrapperTopOffset
-//
-//     $wrapper.append($hintDiv)
-//
-//     $document.on('mousemove', function(e) {
-//       const mouseX = e.pageX - $wrapperLeftOffset
-//       const mouseY = e.pageY - $wrapperTopOffset
-//
-//       const width = (mouseX - anchorX) / $wrapperWidth
-//       const height = (mouseY - anchorY) / $wrapperHeight
-//
-//       console.log(anchorX, anchorY)
-//       const left = (width < 0 ? mouseX : anchorX) / $wrapperWidth
-//       const top = (height < 0 ? mouseY : anchorY) / $wrapperHeight
-//
-//       $hintDiv.css({
-//         top: top * 100 + '%',
-//         left: left * 100 + '%',
-//         width: Math.abs(width) * 100 + '%',
-//         height: Math.abs(height) * 100 + '%'
-//       })
-//     })
-//
-//     $document.one('mouseup', function(e) {
-//       $document.off('mousemove')
-//       $body.removeClass('selecting')
-//       swal("填写表单" , "这里是表单")
-//     })
-//   })
-// }
+let selecting = false;
+let containersSelectors = []
+let containers = []
 
-$('.slide').each((_, ele) => {
-  new Container($(ele)).on()
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (!request.clickable === true) return;
+
+  if (request.command === 'start' && selecting === false) {
+    $('body').addClass('clickable-selecting')
+    selecting = true
+    if (containersSelectors.indexOf(request.containerSelector) === -1) {
+      containersSelectors.push(request.containerSelector)
+      $(request.containerSelector).each((_, ele) => {
+        containers.push(new Container($(ele)))
+      })
+    }
+    containers.forEach(container => container.on())
+  } else if (request.command === 'stop' && selecting === true) {
+    $('body').removeClass('clickable-selecting')
+    selecting = false
+    containers.forEach(container => container.off())
+  } else if (request.command == 'export') {
+    let code = `<script>
+      function clickablePatchAreas() {
+    `
+    containers.forEach((container) => {
+      console.log(container)
+      code += container.exportCode()
+    })
+    code += ` };
+      setTimeout(clickablePatchAreas, 1000);
+    </script> `
+
+    const link = document.createElement('a')
+    const url = window.URL.createObjectURL(new Blob([code], {type: 'text/plain'}));
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'export.txt');
+    link.click();
+  }
 })

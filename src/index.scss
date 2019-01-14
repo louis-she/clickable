@@ -1,5 +1,5 @@
-body {
-  position: relative;
+body.clickable-selecting:not(.clickable-form-editing) {
+  cursor: crosshair;
 }
 
 .clickable-area {
@@ -8,3 +8,57 @@ body {
   position: absolute;
   cursor: pointer;
 }
+
+.clickable-form__field {
+  display: flex;
+  margin-bottom: 8px;
+}
+
+.clickable-form {
+  font-family: "Helvetica Neue", "PingFang SC", "Microsoft Yahei", 微软雅黑, STXihei, 华文细黑, sans-serif;
+  font-weight: normal;
+}
+
+.clickable-form__field-label {
+  display: block;
+  width: 100px;
+  flex: 0 0 auto;
+  padding: 8px 0;
+  text-align: right;
+  margin: 0 30px 0 0;
+  line-height: 20px;
+  font-size: 14px;
+  color: #9b9b9b;
+}
+
+.clickable-form__field-input {
+  display: flex;
+  align-items: center;
+
+  & > input[type=text] {
+    width: 280px;
+    padding: 8px 10px;
+    background: #fff;
+    border: 1px solid #dfdfdf;
+    font-size: 14px;
+    color: #4a4a4a;
+    line-height: 18px;
+    -webkit-transition: border-color .3s;
+    transition: border-color .3s;
+    outline: none;
+    &:hover {
+      border-color: #49e;
+    }
+  }
+}
+
+.clickable-dialog {
+  width: 500px;
+  .swal2-title {
+    display: flex;
+    font-size: 24px;
+    font-weight: normal;
+    margin-bottom: 20px;
+  }
+}
+

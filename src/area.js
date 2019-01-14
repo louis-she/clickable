@@ -2,11 +2,11 @@ class Area {
   constructor($ele) {
     this.$ele = $ele
     this.coordinates = {}
-    $ele.data('instance', this)
     this.$ele.on('mousedown.clickable', (e) => {
       e.stopPropagation()
       return false
     })
+    $ele.data('instance', this)
   }
 
   setPlugin(plugin) {
@@ -17,12 +17,18 @@ class Area {
   }
 
   exportCode() {
-    const html = this.$ele.wrap('<div>').parent().html()
-    debugger
+    const style = Object.assign(this.coordinates, {
+      cursor: 'pointer',
+      position: 'absolute',
+      opacity: '0'
+    })
+    const styleString = Object.keys(style).map((key) => {
+      return `${key}: ${style[key]}`
+    }).join(';')
+
     return `
-      var div = document.createElement('div');
-      div.innerHTML = '${html}'.trim();
-      var area = div.firstChild;
+      var area = document.createElement('div');
+      area.setAttribute("style", "${styleString}");
       area.addEventListener('click', function() {
         ${this.plugin.exportCode()}
       })
@@ -30,13 +36,16 @@ class Area {
   }
 
   setCoordinates({top, left, width, height}) {
-    this.coordinates = {top, left, width, height}
-    this.$ele.css({
-      top: top * 100 + '%',
-      left: left * 100 + '%',
-      width: width * 100 + '%',
-      height: height * 100 + '%'
-    })
+    this.coordinates = {
+      top: `${top * 100}%`,
+      left: `${left * 100}%`,
+      width: `${width * 100}%`,
+      height: `${height * 100}%`
+    }
+    this.$ele.css(Object.assign(this.coordinates, {
+      cursor: 'pointer',
+      position: 'absolute'
+    }))
   }
 
   destroy() {

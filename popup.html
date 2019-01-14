@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0;
+      }
+      .button {
+        height: 30px;
+        width: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border-bottom: 1px solid #f0f0f0;
+      }
+      .button:last-child {
+        border-bottom: none;
+      }
+      .button:not(.disabled):hover {
+        background: #e6f7ff;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="wrapper">
+      <div id="start" class="button">开始</div>
+      <div id="stop" class="button">停止</div>
+      <div id="export" class="button">导出代码</div>
+    </div>
+  </body>
+  <script src="popup.js"></script>
+</html>

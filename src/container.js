@@ -12,7 +12,7 @@ class Container {
 
   exportCode() {
     let code = `{`
-    code += `var container = document.getElementsByClassName('${this.$ele.attr('class')}');`
+    code += `var container = document.getElementsByClassName('${this.$ele.attr('class')}')[0];`
     this.$ele.find('.clickable-area').each((_, area) => {
       code += $(area).data('instance').exportCode()
       code += `container.appendChild(area)`
@@ -55,17 +55,18 @@ class Container {
         })
       })
 
-      this.$ele.one('mouseup', () => {
+      this.$ele.one('mouseup.clickable', () => {
+        $('body').addClass('clickable-form-editing')
         this.$ele.off('mousemove.clickable')
         this.$ele.removeClass('clickable-selecting')
-
         swal({
-          title: "配置行为",
+          title: "配置点击行为",
           html: this.renderForm(RedirectPlugin.attributes()),
           showConfirmButton: true,
           showCancelButton: true,
           confirmButtonText: '添加',
           cancelButtonText: '取消',
+          customClass: 'clickable-dialog',
           preConfirm: () => {
             let attr = {}
             $('#clickable-form').serializeArray().forEach((data) => {
@@ -75,10 +76,10 @@ class Container {
             area.setPlugin(new Plugin.registedPlugins[attr.pluginType](attr))
           }
         }).then((result) => {
+          $('body').removeClass('clickable-form-editing')
           if (result.value) {
           } else {
             area.destroy()
-            console.log(this.exportCode())
           }
         })
       })
@@ -103,9 +104,9 @@ class Container {
   createField(attribute) {
     const inputMethod = `create${attribute.input}Input`
     return $(`
-      <div class="clickable-field">
-        <div class="clickable-field__label">${attribute.label}</div>
-        <div class="clickable-field__input">
+      <div class="clickable-form__field">
+        <div class="clickable-form__field-label">${attribute.label}</div>
+        <div class="clickable-form__field-input">
           ${this[inputMethod] ? this[inputMethod](attribute) : this.createTextInput(attribute)}
         </div>
       </div>

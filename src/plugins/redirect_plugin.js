@@ -8,7 +8,7 @@ class RedirectPlugin extends Plugin {
   static attributes() {
     return super.attributes().concat([
       { label: '跳转URL', name: 'url', input: 'Text', default: 'https://www.xiguacity.cn'},
-      { label: 'newTab', name: 'newTab', input: 'Checkbox', default: true }
+      { label: '在新标签页打开', name: 'newTab', input: 'Checkbox', default: true }
     ])
   }
 
@@ -30,7 +30,7 @@ class RedirectPlugin extends Plugin {
     if (this.newTab) {
       return `window.open("${this.url}", '_blank');`
     } else {
-      return `location.href = ${this.url};`
+      return `location.href = "${this.url}";`
     }
   }
 }
