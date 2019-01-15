@@ -4,6 +4,9 @@ import Area from './area'
 import RedirectPlugin from './plugins/redirect_plugin'
 import Plugin from './plugin'
 
+const context = require.context('./plugins/', true, /\.js$/)
+context.keys().forEach(context)
+
 class Container {
   constructor($ele) {
     this.$ele = $ele
@@ -67,6 +70,15 @@ class Container {
           confirmButtonText: '添加',
           cancelButtonText: '取消',
           customClass: 'clickable-dialog',
+          onOpen: (modal) => {
+            const $modal = $(modal)
+            $modal.on('change.clickable', 'select[name=pluginType]', (e) => {
+              const $selector = $(e.currentTarget)
+              $modal.find('form').replaceWith(
+                this.renderForm(Plugin.registedPlugins[$selector.val()].attributes(), $selector.val())
+              )
+            })
+          },
           preConfirm: () => {
             let attr = {}
             $('#clickable-form').serializeArray().forEach((data) => {
@@ -87,7 +99,8 @@ class Container {
   }
 
   createTextInput(attribute) {
-    return `<input name="${attribute.name}" type="text" ${attribute.required === true && 'required'}>`
+    return `<input name="${attribute.name}" type="text" placeholder="${attribute.hint || ''}"
+        ${attribute.required === true && 'required'}>`
   }
 
   createCheckboxInput(attribute) {
@@ -113,12 +126,13 @@ class Container {
     `)
   }
 
-  renderForm(attributes) {
+  renderForm(attributes, pluginType="RedirectPlugin") {
     const $form = $('<form id="clickable-form" class="clickable-form" />')
     attributes.forEach(fieldAttribute => {
       const $field = this.createField(fieldAttribute)
       $form.append($field)
     });
+    $form.find(`option[value=${pluginType}]`).attr('selected', true)
     return $form.wrap('<div>').parent().html()
   }
 

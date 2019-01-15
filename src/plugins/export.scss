@@ -1,0 +1,50 @@
+.clickable-plugin__mask {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0,0,0,.8);
+  z-index: 210;
+  cursor: pointer;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.clickable-plugin__video {
+  max-width: 80vw;
+  max-height: 80vh;
+  cursor: default;
+}
+
+.clickable-plugin__qrcode-dialog__qrcode {
+  width: 30%;
+  position: fixed;
+  z-index: 999;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.clickable-plugin__qrcode-dialog__qrcode-background {
+  width: 100%;
+}
+
+.clickable-plugin__qrcode-dialog__qrcode-image {
+  position: absolute;
+  width: 60%;
+  left: 12%;
+  bottom: 19%;
+  z-index: 1000;
+}
+
+.clickable-plugin__qrcode-dialog__qrcode-close-btn {
+  width: 50px;
+  height: 50px;
+  background-color: transparent;
+  position: absolute;
+  cursor: pointer;
+  top: 10%;
+  right: 0;
+}

@@ -1,3 +1,4 @@
+
 class Plugin {
 
   static register(pluginName, pluginClass) {
@@ -21,5 +22,6 @@ class Plugin {
 }
 
 Plugin.registedPlugins = {}
+
 
 export default Plugin
