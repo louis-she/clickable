@@ -40,11 +40,24 @@ class VideoPlugin extends Plugin {
   }
 
   exportCode() {
-    if (this.newTab) {
-      return `window.open("${this.url}", '_blank');`
-    } else {
-      return `location.href = "${this.url}";`
-    }
+    return `
+      var $html = $('
+        <div class="clickable-plugin__mask">
+          <video controls loop autoplay class="clickable-plugin__video">
+            <source src="${this.mp4Url}" type="video/mp4">
+            <source src="${this.webmUrl}" type="video/webm">
+          </video>
+        </div>
+      ').appendTo('body');
+      var close = function() {
+        $html.remove();
+        $(document).off('.clickableVideoPlugin');
+      }
+      $html.one('click.clickableVideoPlugin', close);
+      $(document).one('keydown.clickableVideoPlugin', (e) => {
+        if (e.keyCode == 27) close();
+      });
+    `.split('\n').join()
   }
 }
 

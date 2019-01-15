@@ -27,11 +27,11 @@ class QrcodeDialogPlugin extends Plugin {
     if (this.paramNames) {
       selectParam = this.paramNames.split(',').map((paramName) => {
         return paramName.trim()
-      })
+      });
     }
     const paramsString = getParamsStr(selectParam)
     const qrcodeImage = this.qrcodeImage.indexOf('?') !== -1 ?
-      `${this.qrcodeImage}${paramsString}` : `${this.qrcodeImage}?${paramsString}`
+      this.qrcodeImage + paramsString : `${this.qrcodeImage}?${paramsString}`
 
     const $html = $(`
       <div class="clickable-plugin__mask">
@@ -44,7 +44,8 @@ class QrcodeDialogPlugin extends Plugin {
         </div>
       </div>
     `).appendTo('body')
-    const close = () => {
+
+    const close = function() {
       $html.remove()
       $(document).off('.clickableQrcodeDialogPlugin')
     }
@@ -55,19 +56,18 @@ class QrcodeDialogPlugin extends Plugin {
   }
 
   exportCode() {
-    `
     let selectParam = null
     if (this.paramNames) {
       selectParam = this.paramNames.split(',').map((paramName) => {
         return paramName.trim()
-      })
+      });
     }
     const paramsString = getParamsStr(selectParam)
     const qrcodeImage = this.qrcodeImage.indexOf('?') !== -1 ?
-      \`${this.qrcodeImage}${paramsString}\` : \`${this.qrcodeImage}?${paramsString}\`
+      this.qrcodeImage + paramsString : `${this.qrcodeImage}?${paramsString}`
 
-    const $html = $(\`
-      <div class="clickable-plugin__mask">
+    return `
+      var $html = $('<div class="clickable-plugin__mask">
         <div class="clickable-plugin__qrcode-dialog__qrcode">
           <img class="clickable-plugin__qrcode-dialog__qrcode-background"
                src="https://m.xiguacity.cn/static/landing/program-add-qr.png" id="qrcontainer">
@@ -76,16 +76,16 @@ class QrcodeDialogPlugin extends Plugin {
           <i class="clickable-plugin__qrcode-dialog__qrcode-close-btn"></i>
         </div>
       </div>
-    \`).appendTo('body')
-    const close = () => {
-      $html.remove()
-      $(document).off('.clickableQrcodeDialogPlugin')
-    }
-    $html.on('click', 'i', close)
-    $(document).one('keydown.videoPluginClickable', (e) => {
-      if (e.keyCode == 27) close()
-    })
-    `
+      ').appendTo('body');
+      var close = function() {
+        $html.remove();
+        $(document).off('.clickableQrcodeDialogPlugin');
+      };
+      $html.on('click', 'i', close);
+      $(document).one('keydown.videoPluginClickable', (e) => {
+        if (e.keyCode == 27) close();
+      });
+    `.split('\n').join()
   }
 
 }
