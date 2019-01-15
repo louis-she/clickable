@@ -37,12 +37,12 @@ class QrcodeDialogPlugin extends Plugin {
       </div>
     `).appendTo('body')
 
-    const close = function() {
+    const close = function(e = null) {
       $html.remove()
       $(document).off('.clickableQrcodeDialogPlugin')
     }
     $html.on('click', 'i', close)
-    $(document).one('keydown.videoPluginClickable', (e) => {
+    $(document).on('keydown.videoPluginClickable', (e) => {
       if (e.keyCode == 27) close()
     })
   }
@@ -52,7 +52,6 @@ class QrcodeDialogPlugin extends Plugin {
       var paramsString = getParamsStr();
       var qrcodeImage = '${this.qrcodeImage}'.indexOf('?') !== -1 ?
         '${this.qrcodeImage}' + paramsString : '${this.qrcodeImage}' + '?' + paramsString;
-
       var $html = $('<div class="clickable-plugin__mask">
         <div class="clickable-plugin__qrcode-dialog__qrcode">
           <img class="clickable-plugin__qrcode-dialog__qrcode-background"
@@ -68,7 +67,7 @@ class QrcodeDialogPlugin extends Plugin {
         $(document).off('.clickableQrcodeDialogPlugin');
       };
       $html.on('click', 'i', close);
-      $(document).one('keydown.videoPluginClickable', function(e) {
+      $(document).on('keydown.videoPluginClickable', function(e) {
         if (e.keyCode == 27) close();
       });
     `.split('\n').join('')

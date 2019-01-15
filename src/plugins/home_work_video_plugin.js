@@ -35,12 +35,13 @@ class HomeWorkVideoPlugin extends VideoPlugin {
       </div>
     `).appendTo('body')
 
-    const close = () => {
+    const close = (e = null) => {
+      if (e !== null && !$(e.target).is('.clickable-plugin__mask')) return
       $html.remove()
       $(document).off('.clickableVideoPlugin')
     }
-    $html.one('click.clickableVideoPlugin', close)
-    $(document).one('keydown.clickableVideoPlugin', (e) => {
+    $html.on('click.clickableVideoPlugin', close)
+    $(document).on('keydown.clickableVideoPlugin', (e) => {
       if (e.keyCode == 27) close()
     })
   }
@@ -63,12 +64,13 @@ class HomeWorkVideoPlugin extends VideoPlugin {
         </div>
       ').appendTo('body');
 
-      var close = function() {
+      var close = function(e = null) {
+        if (e !== null && !$(e.target).is('.clickable-plugin__mask')) return;
         $html.remove();
         $(document).off('.clickableVideoPlugin');
       };
-      $html.one('click.clickableVideoPlugin', close);
-      $(document).one('keydown.clickableVideoPlugin', function(e) {
+      $html.on('click.clickableVideoPlugin', close);
+      $(document).on('keydown.clickableVideoPlugin', function(e) {
         if (e.keyCode == 27) close();
       });
     `.split('\n').join('')

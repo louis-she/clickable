@@ -1,5 +1,4 @@
 import Plugin from '../plugin'
-import $ from 'jquery'
 import './export.scss'
 import { getParamsStr } from './export'
 

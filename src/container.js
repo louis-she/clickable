@@ -33,6 +33,11 @@ class Container {
 
   on() {
     this.$ele.on('mousedown.clickable', (e) => {
+      let shifted = false
+      $(document).on('keydown.clickable keyup.clickable', (e) => {
+        if (e.keyCode == 16) { shifted = !shifted }
+      })
+
       this.$ele.addClass('clickable-selecting')
       const area = this.createArea()
       const $containerLeftOffset = this.$ele.offset().left
@@ -45,10 +50,30 @@ class Container {
       this.$ele.on('mousemove.clickable', function(e) {
         const mouseX = e.pageX - $containerLeftOffset
         const mouseY = e.pageY - $containerTopOffset
-        const width = (mouseX - anchorX) / $containerWidth
-        const height = (mouseY - anchorY) / $containerHeight
-        const left = (width < 0 ? mouseX : anchorX) / $containerWidth
-        const top = (height < 0 ? mouseY : anchorY) / $containerHeight
+
+        let width, height, left, top = 0
+
+        if (!shifted) {
+          width = (mouseX - anchorX) / $containerWidth
+          height = (mouseY - anchorY) / $containerHeight
+          left = (width < 0 ? mouseX : anchorX) / $containerWidth
+          top = (height < 0 ? mouseY : anchorY) / $containerHeight
+        } else {
+          width = (mouseX - anchorX)
+          height = (mouseY - anchorY)
+
+          let absWidth = Math.abs(width)
+          let absHeight = Math.abs(height)
+          let minBorder = Math.min(absWidth, absHeight)
+
+          left = (width < 0 ? anchorX - minBorder : anchorX)
+          top = (height < 0 ? anchorY - minBorder : anchorY)
+
+          width = minBorder / $containerWidth
+          height = minBorder / $containerHeight
+          left = left / $containerWidth
+          top = top / $containerHeight
+        }
 
         area.setCoordinates({
           top,
