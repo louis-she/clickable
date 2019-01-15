@@ -6,6 +6,19 @@ let selecting = false;
 let containersSelectors = []
 let containers = []
 
+function exportCode(containers) {
+  const javascripts = require('!!raw-loader!./plugins/export.js').replace(/import/g, '// import').replace(/export/g, '')
+  const styles = require('!!raw-loader!./plugins/export.scss')
+
+  let code = ""
+  code += `<style>${styles}</style>`;
+  code += `<script>${javascripts}</script>`;
+  code += `<script> window.onload = function() {`
+  containers.forEach((container) => { code += container.exportCode() })
+  code += `}; </script>`
+  return code
+}
+
 if (chrome.runtime) {
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (!request.clickable === true) return;
@@ -25,17 +38,7 @@ if (chrome.runtime) {
       selecting = false
       containers.forEach(container => container.off())
     } else if (request.command == 'export') {
-      let code = `<script>
-        function clickablePatchAreas() {
-      `
-      containers.forEach((container) => {
-        console.log(container)
-        code += container.exportCode()
-      })
-      code += ` };
-        setTimeout(clickablePatchAreas, 1000);
-      </script> `
-
+      const code = exportCode(containers)
       const link = document.createElement('a')
       const url = window.URL.createObjectURL(new Blob([code], {type: 'text/plain'}));
       link.setAttribute('href', url);

@@ -1,4 +1,3 @@
-
 class Plugin {
 
   static register(pluginName, pluginClass) {

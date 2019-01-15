@@ -20,7 +20,7 @@ class VideoPlugin extends Plugin {
     this.webmUrl = webmUrl
   }
 
-  clicked() {
+  clicked(area) {
     const $html = $(`
       <div class="clickable-plugin__mask">
         <video controls loop autoplay class="clickable-plugin__video">
@@ -39,7 +39,7 @@ class VideoPlugin extends Plugin {
     })
   }
 
-  exportCode() {
+  exportClickedCode() {
     return `
       var $html = $('
         <div class="clickable-plugin__mask">
@@ -52,12 +52,12 @@ class VideoPlugin extends Plugin {
       var close = function() {
         $html.remove();
         $(document).off('.clickableVideoPlugin');
-      }
+      };
       $html.one('click.clickableVideoPlugin', close);
-      $(document).one('keydown.clickableVideoPlugin', (e) => {
+      $(document).one('keydown.clickableVideoPlugin', function(e) {
         if (e.keyCode == 27) close();
       });
-    `.split('\n').join()
+    `.split('\n').join('')
   }
 }
 

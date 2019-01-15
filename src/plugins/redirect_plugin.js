@@ -2,7 +2,7 @@ import Plugin from '../plugin'
 
 class RedirectPlugin extends Plugin {
   static name() {
-    return '重定向'
+    return '跳转链接'
   }
 
   static attributes() {
@@ -18,7 +18,7 @@ class RedirectPlugin extends Plugin {
     this.newTab = newTab
   }
 
-  clicked() {
+  clicked(area) {
     if (this.newTab) {
       window.open(this.url, '_blank')
     } else {
@@ -26,7 +26,7 @@ class RedirectPlugin extends Plugin {
     }
   }
 
-  exportCode() {
+  exportClickedCode() {
     if (this.newTab) {
       return `window.open("${this.url}", '_blank');`
     } else {

@@ -9,18 +9,23 @@ class Area {
     $ele.data('instance', this)
   }
 
-  setPlugin(plugin) {
+  applyAction(plugin) {
     this.plugin = plugin
-    this.$ele.on('click', (e) => {
-      this.plugin.clicked()
-    })
+    if (plugin.set) {
+      plugin.set(this)
+    }
+
+    if (plugin.clicked) {
+      this.$ele.on('click', (e) => {
+        this.plugin.clicked(this)
+      })
+    }
   }
 
   exportCode() {
     const style = Object.assign(this.coordinates, {
       cursor: 'pointer',
-      position: 'absolute',
-      opacity: '0'
+      position: 'absolute'
     })
     const styleString = Object.keys(style).map((key) => {
       return `${key}: ${style[key]}`
@@ -29,9 +34,10 @@ class Area {
     return `
       var area = document.createElement('div');
       area.setAttribute("style", "${styleString}");
-      area.addEventListener('click', function() {
-        ${this.plugin.exportCode()}
-      })
+      ${this.plugin.exportSetCode && this.plugin.exportSetCode()}
+      ${this.plugin.exportClickedCode && `area.addEventListener('click', function() {
+        ${this.plugin.exportClickedCode()}
+      })`}
     `
   }
 

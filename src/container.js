@@ -85,7 +85,7 @@ class Container {
               attr[data.name] = data.value
             })
             console.log("Plugin initialized with: ", attr)
-            area.setPlugin(new Plugin.registedPlugins[attr.pluginType](attr))
+            area.applyAction(new Plugin.registedPlugins[attr.pluginType](attr))
           }
         }).then((result) => {
           $('body').removeClass('clickable-form-editing')
