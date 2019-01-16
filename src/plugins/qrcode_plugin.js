@@ -34,7 +34,7 @@ class QrcodePlugin extends Plugin {
     return `
       var paramsString = getParamsStr();
       var qrcodeImage = '${this.qrcodeImage}'.indexOf('?') !== -1 ?
-        '${this.qrcodeImage}' + paramsString : '${this.qrcodeImage}' + '?' + paramsString;
+        '${this.qrcodeImage}' + '&' + paramsString : '${this.qrcodeImage}' + '?' + paramsString;
       var html = '<img src="' + qrcodeImage + '" style="width: 100%; height: 100%;" />';
       area.innerHTML = html;
     `

@@ -51,7 +51,7 @@ class QrcodeDialogPlugin extends Plugin {
     return `
       var paramsString = getParamsStr();
       var qrcodeImage = '${this.qrcodeImage}'.indexOf('?') !== -1 ?
-        '${this.qrcodeImage}' + paramsString : '${this.qrcodeImage}' + '?' + paramsString;
+        '${this.qrcodeImage}' + '&' + paramsString : '${this.qrcodeImage}' + '?' + paramsString;
       var $html = $('<div class="clickable-plugin__mask">
         <div class="clickable-plugin__qrcode-dialog__qrcode">
           <img class="clickable-plugin__qrcode-dialog__qrcode-background"
