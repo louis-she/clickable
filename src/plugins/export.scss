@@ -94,6 +94,12 @@
   align-self: flex-start;
 }
 
+.clickable-plugin__homework-comment > .avatar img {
+  width: 76px;
+  height: 76px;
+}
+
+
 .clickable-plugin__homework-comment .comment:after {
   box-sizing: content-box;
   border-top-right-radius: 1em .5em;

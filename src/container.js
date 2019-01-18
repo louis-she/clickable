@@ -53,26 +53,20 @@ class Container {
 
         let width, height, left, top = 0
 
+        width = (mouseX - anchorX)
+        height = (mouseY - anchorY)
+
         if (!shifted) {
-          width = (mouseX - anchorX) / $containerWidth
-          height = (mouseY - anchorY) / $containerHeight
+          width = width / $containerWidth
+          height = height / $containerHeight
           left = (width < 0 ? mouseX : anchorX) / $containerWidth
           top = (height < 0 ? mouseY : anchorY) / $containerHeight
         } else {
-          width = (mouseX - anchorX)
-          height = (mouseY - anchorY)
-
-          let absWidth = Math.abs(width)
-          let absHeight = Math.abs(height)
-          let minBorder = Math.min(absWidth, absHeight)
-
-          left = (width < 0 ? anchorX - minBorder : anchorX)
-          top = (height < 0 ? anchorY - minBorder : anchorY)
-
+          const minBorder = Math.min(Math.abs(width), Math.abs(width))
           width = minBorder / $containerWidth
           height = minBorder / $containerHeight
-          left = left / $containerWidth
-          top = top / $containerHeight
+          left = (width < 0 ? anchorX - minBorder : anchorX) / $containerWidth
+          top = (height < 0 ? anchorY - minBorder : anchorY) / $containerHeight
         }
 
         area.setCoordinates({
