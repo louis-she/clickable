@@ -28,6 +28,6 @@ npm start
 
 1. 类方法 `name` 返回Plugin的中文名称
 2. 类方法 `attributes` 定义Plugin的表单字段
-3. 构造方法 `constructor` 构造方法的参数用于接收表单字段的值
+3. 构造方法 `constructor` 构造方法的参数用于接收表单字段的值，参数名称需要和表单字段的`name`字段保持一致
 4. 实例方法 `clicked` Area被点击后的行为
 5. 实例方法 `exportClickedCode` 返回这个Plugin被导出时应该导出的代码

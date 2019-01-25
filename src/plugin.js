@@ -6,7 +6,10 @@ class Plugin {
   }
 
   static attributes() {
-    const pluginOptions = Object.keys(Plugin.registedPlugins).map((pluginName) => {
+    const pluginOptions = Object.keys(Plugin.registedPlugins).filter((pluginName) => {
+      const pluginClass = Plugin.registedPlugins[pluginName]
+      return pluginClass.configurable()
+    }).map((pluginName) => {
       const pluginClass = Plugin.registedPlugins[pluginName]
       return {
         label: pluginClass.name(),
@@ -18,9 +21,12 @@ class Plugin {
       { name: 'pluginType', label: '动作名称', input: 'Select', options: pluginOptions }
     ]
   }
+
+  static configurable() {
+    return true
+  }
 }
 
 Plugin.registedPlugins = {}
-
 
 export default Plugin

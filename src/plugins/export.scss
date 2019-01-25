@@ -111,3 +111,22 @@
   left: -.5em;
   width: .5em;
 }
+
+.clickable-bottom-fixed-qrcode {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: none;
+}
+
+.clickable-bottom-fixed-qrcode__background {
+  width: 100%;
+}
+
+.clickable-bottom-fixed-qrcode__qrcode {
+  position: absolute;
+  top: 17.7%;
+  left: 27.55%;
+  width: 8.2%;
+}

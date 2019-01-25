@@ -41,13 +41,12 @@ class Area {
     `
   }
 
-  setCoordinates({top, left, width, height}) {
-    this.coordinates = {
-      top: `${top * 100}%`,
-      left: `${left * 100}%`,
-      width: `${width * 100}%`,
-      height: `${height * 100}%`
-    }
+  setCoordinates(coordinates) {
+    this.coordinates = {}
+    Object.keys(coordinates).forEach((key) => {
+      this.coordinates[key] = `${coordinates[key] * 100}%`
+    })
+
     this.$ele.css(Object.assign(this.coordinates, {
       cursor: 'pointer',
       position: 'absolute'

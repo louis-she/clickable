@@ -17,3 +17,4 @@ export function getParamsStr(selectParams = null) {
   }
   return $.param(result);
 }
+
